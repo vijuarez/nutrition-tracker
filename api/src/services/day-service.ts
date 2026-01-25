@@ -18,7 +18,7 @@ async function getDay(date: string): Promise<DayDTO | undefined> {
     }
 }
 
-async function upsertDay(date: string, raw: string, complete: boolean, workout_calories: number, workout_note: string): Promise<void> {
+async function upsertDay(date: string, raw: string, complete: boolean, workout_calories: number | null, workout_note: string | null): Promise<void> {
 
     const values = {
         date,

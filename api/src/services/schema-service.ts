@@ -45,6 +45,19 @@ async function createFoodTable(): Promise<boolean> {
     return result.numAffectedRows !== undefined && result.numAffectedRows > 0
 }
 
+async function createSourceConfigTable(): Promise<boolean> {
+    const result = await sql`
+        CREATE TABLE IF NOT EXISTS user_source_config (
+            user_id         TEXT NOT NULL,
+            source_id       TEXT NOT NULL,
+            config          TEXT NOT NULL,
+            PRIMARY KEY (user_id, source_id),
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+        )
+    `.execute(db)
+
+    return result.numAffectedRows !== undefined && result.numAffectedRows > 0
+}
 
 async function createDayTable(): Promise<boolean> {
 
@@ -52,7 +65,9 @@ async function createDayTable(): Promise<boolean> {
         CREATE TABLE IF NOT EXISTS day (
             date            TEXT PRIMARY KEY NOT NULL,
             complete        INTEGER NOT NULL,
-            raw             TEXT NOT NULL
+            raw             TEXT NOT NULL,
+            workout_calories INTEGER,
+            workout_note    TEXT
         )
     `.execute(db)
 
@@ -108,6 +123,7 @@ export const schemaService = {
     createSessionTable,
     createFoodTable,
     createDayEntryTable,
+    createSourceConfigTable,
     createSettingsTable,
     createDayTable,
 }

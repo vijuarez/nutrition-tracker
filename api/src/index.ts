@@ -7,6 +7,7 @@ import { initDb } from "./db/init-db"
 import { onboardRouter } from "./routers/onboard-router"
 import { foodsRouter } from "./routers/foods-router"
 import { dayRouter } from "./routers/day-router"
+import { sourcesRouter } from "./routers/sources-router"
 
 
 const apiRouter = Express.Router()
@@ -14,6 +15,7 @@ apiRouter.use("/onboard", onboardRouter)
 apiRouter.use("/auth", authRouter)
 apiRouter.use("/foods", foodsRouter)
 apiRouter.use("/day", dayRouter)
+apiRouter.use("/sources", sourcesRouter)
 
 
 apiRouter.use("/", (req, res) => { res.json({ msg: "Home route" }) })

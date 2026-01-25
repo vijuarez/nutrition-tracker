@@ -20,6 +20,7 @@ const defaultFoods: Food[] = [
         fats: 50,
         protein: 20,
         fiber: 10,
+        added_on: "2025-01-01",
     }
 ]
 

@@ -12,6 +12,9 @@ export async function initDb() {
     await schemaService.createFoodTable()
     console.log("✅ createFoodTable")
 
+    await schemaService.createSourceConfigTable()
+    console.log("✅ createSourceConfigTable")
+
     await schemaService.createDayEntryTable()
     console.log("✅ createDayEntryTable")
 
