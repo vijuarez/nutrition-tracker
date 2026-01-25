@@ -48,3 +48,27 @@ export const settingsSchema = z.object({
 })
 
 export type Settings = z.infer<typeof settingsSchema>
+
+export interface SourceConfigField {
+    key: string;
+    label: string;
+    type: 'text' | 'password';
+}
+
+export interface FoodSource {
+    id: string;
+    name: string;
+    description: string;
+    fields: SourceConfigField[];
+    isReady: boolean;
+}
+
+export interface SourceSearchResult {
+    id: string;
+    name: string;
+    calories: number;
+    carbs: number;
+    protein: number;
+    fats: number;
+    fiber: number;
+}

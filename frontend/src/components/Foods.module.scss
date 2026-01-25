@@ -70,6 +70,42 @@
             }
         }
     }
+
+    .sources_config {
+        background-color: rgba(0, 0, 100, 0.05);
+        padding: 20px;
+        border-radius: 8px;
+        display: grid;
+        gap: 15px;
+
+        header {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .source_item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: grid;
+            gap: 10px;
+
+            label {
+                display: grid;
+                grid-template-columns: 8rem 1fr;
+                gap: 10px;
+                align-items: center;
+
+                input {
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
 }
 
 .edit_food_modal {

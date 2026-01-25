@@ -1,5 +1,5 @@
 import axios from "axios"
-import type { Day, User } from "./types"
+import type { Day, FoodSource, SourceSearchResult, User } from "./types"
 import { env } from "./env"
 import type { Food } from "./types.backend"
 
@@ -90,6 +90,20 @@ async function logout(): Promise<boolean> {
     return ok
 }
 
+async function getSources(): Promise<FoodSource[]> {
+    const response = await axios.get("/sources")
+    return response.data
+}
+
+async function saveSourceConfig(sourceId: string, config: any): Promise<void> {
+    await axios.post(`/sources/${sourceId}/config`, config)
+}
+
+async function searchRemote(query: string): Promise<SourceSearchResult[]> {
+    const response = await axios.get("/sources/search", { params: { q: query } })
+    return response.data
+}
+
 export const api = {
     getDay,
     setDay,
@@ -104,4 +118,7 @@ export const api = {
     createFoods,
     deleteFood,
     updateFood,
+    getSources,
+    saveSourceConfig,
+    searchRemote,
 }

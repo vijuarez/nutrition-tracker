@@ -1,12 +1,14 @@
 import s from "./Foods.module.scss"
 
 import { useFoods } from "../hooks/useFoods"
+import { useSources } from "../hooks/useSources"
 import { useMemo, useState } from "react"
 import z from "zod"
 import Button from "./Button"
-import { FaArrowDown, FaArrowUp, FaEdit, FaTrash } from "react-icons/fa"
+import { FaArrowDown, FaArrowUp, FaEdit, FaSearch, FaTrash } from "react-icons/fa"
 import Table from "./Table"
 import type { Food } from "../types.backend"
+import type { SourceSearchResult } from "../types"
 import dayjs from "dayjs"
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
 export default function Foods({ }: Props) {
 
     const { allFoods, addFood, deleteFood, updateFood } = useFoods()
+    const { sources, saveConfig, searchRemote, isSearching } = useSources()
 
     const [foodName, setFoodName] = useState("")
     const [foodCalories, setFoodCalories] = useState("")
@@ -23,6 +26,11 @@ export default function Foods({ }: Props) {
     const [foodProtein, setFoodProtein] = useState("")
     const [foodFats, setFoodFats] = useState("")
     const [foodFiber, setFoodFiber] = useState("")
+
+    const [remoteSearchResults, setRemoteSearchResults] = useState<SourceSearchResult[]>([])
+    const [showRemoteSearch, setShowRemoteSearch] = useState(false)
+
+    const [sourceConfigs, setSourceConfigs] = useState<Record<string, Record<string, string>>>({})
 
     const [error, setError] = useState<any>(null)
 
@@ -74,6 +82,33 @@ export default function Foods({ }: Props) {
         })
         setError(null)
         console.log("Created foods:", result)
+        setFoodName("")
+        setFoodCalories("")
+        setFoodCarbs("")
+        setFoodProtein("")
+        setFoodFats("")
+        setFoodFiber("")
+    }
+
+    async function onSearchRemote() {
+        if (!foodName) return
+        setShowRemoteSearch(true)
+        try {
+            const results = await searchRemote(foodName)
+            setRemoteSearchResults(results)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    function onSelectRemoteResult(result: SourceSearchResult) {
+        setFoodName(result.name)
+        setFoodCalories(result.calories.toString())
+        setFoodCarbs(result.carbs.toString())
+        setFoodProtein(result.protein.toString())
+        setFoodFats(result.fats.toString())
+        setFoodFiber(result.fiber.toString())
+        setShowRemoteSearch(false)
     }
 
     const [showEditModal, setShowEditModal] = useState(false)
@@ -193,7 +228,15 @@ export default function Foods({ }: Props) {
             <form onSubmit={e => { e.preventDefault(); onSubmit() }}>
                 <fieldset className={s.new_food}>
                     <header>Add new food</header>
-                    <label>Name<input type="text" value={foodName} onChange={e => setFoodName(e.target.value)} /></label>
+                    <label>
+                        Name
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <input type="text" value={foodName} onChange={e => setFoodName(e.target.value)} style={{ flex: 1 }} />
+                            <Button type="button" onClick={onSearchRemote} disabled={!foodName || isSearching} title="Search Remote">
+                                <FaSearch />
+                            </Button>
+                        </div>
+                    </label>
                     <label>Calories<input type="text" value={foodCalories} onChange={e => setFoodCalories(e.target.value)} /></label>
                     <label>Carbs<input type="text" value={foodCarbs} onChange={e => setFoodCarbs(e.target.value)} /></label>
                     <label>Protein<input type="text" value={foodProtein} onChange={e => setFoodProtein(e.target.value)} /></label>
@@ -202,6 +245,56 @@ export default function Foods({ }: Props) {
                     <Button type="submit">Save</Button>
                 </fieldset>
             </form>
+
+            {/* Remote Search Modal */}
+            <div className={s.edit_food_modal} data-show={showRemoteSearch}>
+                <div style={{ background: 'white', padding: '1rem', borderRadius: '8px', maxWidth: '500px', width: '90%', zIndex: 100 }}>
+                    <header style={{ fontWeight: 'bold', marginBottom: '1rem' }}>Search results for "{foodName}"</header>
+                    <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                        {isSearching && <div>Searching...</div>}
+                        {!isSearching && remoteSearchResults.length === 0 && <div>No results found</div>}
+                        {remoteSearchResults.map(result => (
+                            <div key={result.id} onClick={() => onSelectRemoteResult(result)} style={{ padding: '0.5rem', borderBottom: '1px solid #eee', cursor: 'pointer' }}>
+                                <strong>{result.name}</strong><br />
+                                <small>{result.calories} kcal | C:{result.carbs} P:{result.protein} F:{result.fats}</small>
+                            </div>
+                        ))}
+                    </div>
+                    <footer style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button onClick={() => setShowRemoteSearch(false)}>Close</Button>
+                    </footer>
+                </div>
+                <div className={s.bg} onClick={() => setShowRemoteSearch(false)} />
+            </div>
+
+            <section className={s.sources_config}>
+                <header>Sources Configuration</header>
+                {sources.map(source => (
+                    <div key={source.id} className={s.source_item}>
+                        <strong>{source.name}</strong> {source.isReady ? '✅' : '❌'}
+                        <p><small>{source.description}</small></p>
+                        {source.fields.map(field => (
+                            <label key={field.key}>
+                                {field.label}
+                                <input
+                                    type={field.type}
+                                    value={sourceConfigs[source.id]?.[field.key] || ''}
+                                    onChange={e => setSourceConfigs({
+                                        ...sourceConfigs,
+                                        [source.id]: {
+                                            ...(sourceConfigs[source.id] || {}),
+                                            [field.key]: e.target.value
+                                        }
+                                    })}
+                                />
+                            </label>
+                        ))}
+                        <Button onClick={() => saveConfig({ sourceId: source.id, config: sourceConfigs[source.id] || {} })}>
+                            Save Config
+                        </Button>
+                    </div>
+                ))}
+            </section>
 
             {
                 error &&

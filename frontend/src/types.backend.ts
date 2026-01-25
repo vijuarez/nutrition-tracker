@@ -50,10 +50,17 @@ export interface User {
   username: string;
 }
 
+export interface UserSourceConfig {
+  config: string;
+  source_id: string;
+  user_id: string;
+}
+
 export interface DB {
   day: Day;
   day_entry: DayEntry;
   food: Food;
   session: Session;
   user: User;
+  user_source_config: UserSourceConfig;
 }
