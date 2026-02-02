@@ -1,5 +1,4 @@
 import { db } from "../db/db";
-import { UserSourceConfig } from "../db/schema";
 import { FoodSource, SourceSearchResult } from "../sources/base";
 import { MockSource } from "../sources/mock-source";
 import { UsdaSource } from "../sources/usda-source";

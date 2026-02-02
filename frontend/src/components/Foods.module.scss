@@ -1,5 +1,4 @@
 .Foods {
-    margin-top: 20px;
     max-width: min(95vw, 40rem);
     display: grid;
     margin: 20px auto;
@@ -30,9 +29,8 @@
         border: none;
         max-width: min(90vw, 15rem);
         margin: 0 auto;
-        padding: 0;
         border-radius: 5px;
-        padding-bottom: 10px;
+        padding: 0 0 10px;
         box-shadow: 0 3px 3px rgba($color: black, $alpha: 0.1);
 
         * {
