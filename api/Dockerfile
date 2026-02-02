@@ -1,21 +1,18 @@
-# Stage 1
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-VOLUME /app/database
+# Ensure database directory exists
+RUN mkdir -p /app/database
 
-COPY package*.json .
-COPY tsconfig*.json .
+COPY package*.json ./
+COPY tsconfig*.json ./
 
 RUN npm install --force
 
 COPY . .
 
-# RUN npm run init-db
-
-RUN npm run build
-
 EXPOSE 4000
 
-CMD ["npm", "run", "start"]
+# Run in dev mode for hot reloading
+CMD ["npm", "run", "dev"]

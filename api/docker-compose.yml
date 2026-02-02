@@ -1,8 +1,0 @@
-services:
-  backend:
-    build: .
-    ports:
-      - 4000:4000
-    volumes:
-      - ./database:/app/database
-    restart: unless-stopped

@@ -2,3 +2,9 @@ untracked
 frontend/.env
 .vscode
 .env
+node_modules
+dist
+.idea
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
