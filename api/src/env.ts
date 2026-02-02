@@ -5,7 +5,7 @@ const envSchema = z.object({
     DATABASE_URL: z.string(),
     DEV: z.enum(["true", "false"]).default("false"),
     GUARD_ROUTES: z.enum(["true", "false"]).default("true"),
-    FRONTEND_ORIGIN: z.string(),
+    FRONTEND_ORIGIN: z.string().transform(val => val.split(',').map(s => s.trim())),
     API_PORT: z.string().default("4000"),
 })
 

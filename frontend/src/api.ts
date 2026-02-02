@@ -4,7 +4,17 @@ import { env } from "./env"
 import type { Food } from "./types.backend"
 
 
-axios.defaults.baseURL = env.VITE_API_URL
+// Smartly determine the API base URL. 
+// If it's localhost, we replace it with the current hostname to support local network access.
+const getBaseURL = () => {
+    const url = env.VITE_API_URL
+    if (url && url.includes('localhost')) {
+        return url.replace('localhost', window.location.hostname)
+    }
+    return url
+}
+
+axios.defaults.baseURL = getBaseURL()
 
 axios.defaults.withCredentials = true // Required for cookies to work
 
