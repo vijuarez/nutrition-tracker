@@ -9,12 +9,14 @@ import DatePicker from "./DatePicker"
 import { useCurrentDate } from "../hooks/useCurrentDate"
 // import type { ParsedLineWithMacros } from "../types"
 import { useFoods } from "../hooks/useFoods"
+import { useUser } from "../hooks/useUser"
 import { sumMacros } from "../utils"
 import type { Macros } from "../types"
-import { LuApple, LuActivity } from "react-icons/lu"
 import Button from "./Button"
 import Table from "./Table"
 import { FaPen, FaWalking } from "react-icons/fa"
+import CalorieProgressBar from "./CalorieProgressBar"
+import Settings from "./Settings"
 
 
 type Props = {
@@ -103,6 +105,9 @@ export default function CurrentDay({ }: Props) {
     }, [lineInfo.linesWithMacros])
 
     const [showDebug, setShowDebug] = useState(false)
+    const [showSettings, setShowSettings] = useState(false)
+
+    const { user } = useUser()
 
     function onInputChange(newTextareaValue: string, workoutCalories: number, workoutNote: string) {
         setTextareaValue(newTextareaValue)
@@ -131,12 +136,22 @@ export default function CurrentDay({ }: Props) {
             />
 
             <header>
-                <h1>{Math.round(totalCalories - workoutCalories)} Calories</h1>
-                <h2>
-                    <small><LuApple /> {Math.round(totalCalories)}</small>
-                    <small><LuActivity /> {workoutCalories}</small>
-                </h2>
+                <CalorieProgressBar
+                    totalCalories={totalCalories}
+                    workoutCalories={workoutCalories}
+                    minCalories={user?.min_calories ?? null}
+                    maxCalories={user?.max_calories ?? null}
+                />
+                <Button onClick={() => setShowSettings(!showSettings)}>
+                    {showSettings ? "Close Settings" : "Set Targets"}
+                </Button>
             </header>
+
+            {showSettings && (
+                <div className={s.settings_panel}>
+                    <Settings onClose={() => setShowSettings(false)} />
+                </div>
+            )}
 
             <main>
 

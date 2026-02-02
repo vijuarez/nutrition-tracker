@@ -1,0 +1,82 @@
+.CalorieProgressBar {
+    .header {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 10px;
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .status {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    }
+
+    .progress_container {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .track {
+        position: relative;
+        width: 100%;
+        height: 20px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .food_bar {
+        height: 100%;
+        background: linear-gradient(90deg, #4CAF50, #8BC34A);
+        transition: width 0.3s ease;
+        border-radius: 0 10px 10px 0;
+    }
+
+    .workout_bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #2196F3, #03A9F4);
+        transition: width 0.3s ease;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .target_zone {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background-color: rgba(40, 167, 69, 0.15);
+        border-left: 2px solid #28a745;
+        border-right: 2px solid #28a745;
+    }
+
+    .target_marker {
+        position: absolute;
+        top: -5px;
+        width: 2px;
+        height: 30px;
+        background-color: #28a745;
+        z-index: 2;
+    }
+
+    .legend {
+        display: flex;
+        gap: 15px;
+        font-size: 0.8rem;
+        color: #666;
+
+        .workout_legend {
+            color: #2196F3;
+        }
+
+        .target_legend {
+            color: #28a745;
+        }
+    }
+}

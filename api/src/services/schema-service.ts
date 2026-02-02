@@ -9,7 +9,9 @@ async function createUserTable(): Promise<boolean> {
             username        TEXT UNIQUE NOT NULL,
             password_hash   TEXT NOT NULL,
             created_on      INTEGER NOT NULL,
-            updated_on      INTEGER NOT NULL
+            updated_on      INTEGER NOT NULL,
+            min_calories    INTEGER,
+            max_calories    INTEGER
         )
     `.execute(db)
 

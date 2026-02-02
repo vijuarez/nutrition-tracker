@@ -8,11 +8,13 @@ import { onboardRouter } from "./routers/onboard-router"
 import { foodsRouter } from "./routers/foods-router"
 import { dayRouter } from "./routers/day-router"
 import { sourcesRouter } from "./routers/sources-router"
+import { userRouter } from "./routers/user-router"
 
 
 const apiRouter = Express.Router()
 apiRouter.use("/onboard", onboardRouter)
 apiRouter.use("/auth", authRouter)
+apiRouter.use("/user", userRouter)
 apiRouter.use("/foods", foodsRouter)
 apiRouter.use("/day", dayRouter)
 apiRouter.use("/sources", sourcesRouter)

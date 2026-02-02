@@ -5,6 +5,10 @@ const migrations: Record<string, string> = {
     add_workouts: `
         ALTER TABLE day ADD COLUMN workout_calories INTEGER NOT NULL;
         ALTER TABLE day ADD COLUMN workout_note TEXT NOT NULL;
+    `,
+    add_calorie_targets: `
+        ALTER TABLE user ADD COLUMN min_calories INTEGER;
+        ALTER TABLE user ADD COLUMN max_calories INTEGER;
     `
 }
 

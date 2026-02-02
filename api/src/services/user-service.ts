@@ -29,6 +29,8 @@ async function createUser(username: string, password: string): Promise<User | un
         password_hash: hashPassword(password),
         username,
         id: uuid(),
+        min_calories: null,
+        max_calories: null,
     }
 
     const users = await db

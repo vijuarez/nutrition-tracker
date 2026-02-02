@@ -45,6 +45,8 @@ export interface Session {
 export interface User {
   created_on: number;
   id: string;
+  max_calories: number | null;
+  min_calories: number | null;
   password_hash: string;
   updated_on: number;
   username: string;

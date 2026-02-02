@@ -6,6 +6,13 @@ export type User = {
     username: string
     created_on: number
     updated_on: number
+    min_calories: number | null
+    max_calories: number | null
+}
+
+export type UserTargets = {
+    min_calories: number | null
+    max_calories: number | null
 }
 
 export type Day = Omit<DayBackend, "complete"> & {
