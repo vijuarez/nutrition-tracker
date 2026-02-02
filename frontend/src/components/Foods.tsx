@@ -45,10 +45,11 @@ export default function Foods({ }: Props) {
     }
 
     const sortedFoods = useMemo(() => {
-        const foods = allFoods.sort(sortFoods)
+        if (!Array.isArray(allFoods)) return []
+        const foods = [...allFoods].sort(sortFoods)
         if (sortAsc)
             return foods
-        return [...foods].reverse()
+        return foods.reverse()
     }, [allFoods, sortBy, sortAsc, sortFoods])
 
     const newFoodSchema = z.object({
@@ -82,12 +83,6 @@ export default function Foods({ }: Props) {
         })
         setError(null)
         console.log("Created foods:", result)
-        setFoodName("")
-        setFoodCalories("")
-        setFoodCarbs("")
-        setFoodProtein("")
-        setFoodFats("")
-        setFoodFiber("")
     }
 
     async function onSearchRemote() {
@@ -95,9 +90,10 @@ export default function Foods({ }: Props) {
         setShowRemoteSearch(true)
         try {
             const results = await searchRemote(foodName)
-            setRemoteSearchResults(results)
+            setRemoteSearchResults(Array.isArray(results) ? results : [])
         } catch (e) {
             console.error(e)
+            setRemoteSearchResults([])
         }
     }
 
@@ -253,7 +249,7 @@ export default function Foods({ }: Props) {
                     <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                         {isSearching && <div>Searching...</div>}
                         {!isSearching && remoteSearchResults.length === 0 && <div>No results found</div>}
-                        {remoteSearchResults.map(result => (
+                        {!isSearching && Array.isArray(remoteSearchResults) && remoteSearchResults.map(result => (
                             <div key={result.id} onClick={() => onSelectRemoteResult(result)} style={{ padding: '0.5rem', borderBottom: '1px solid #eee', cursor: 'pointer' }}>
                                 <strong>{result.name}</strong><br />
                                 <small>{result.calories} kcal | C:{result.carbs} P:{result.protein} F:{result.fats}</small>
@@ -269,7 +265,7 @@ export default function Foods({ }: Props) {
 
             <section className={s.sources_config}>
                 <header>Sources Configuration</header>
-                {sources.map(source => (
+                {Array.isArray(sources) && sources.map(source => (
                     <div key={source.id} className={s.source_item}>
                         <strong>{source.name}</strong> {source.isReady ? '✅' : '❌'}
                         <p><small>{source.description}</small></p>

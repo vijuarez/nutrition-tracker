@@ -25,7 +25,7 @@ export function useSources() {
     })
 
     return {
-        sources: sourcesQuery.data || [],
+        sources: Array.isArray(sourcesQuery.data) ? sourcesQuery.data : [],
         isLoading: sourcesQuery.isLoading,
         saveConfig: saveConfigMutation.mutateAsync,
         searchRemote: searchMutation.mutateAsync,
