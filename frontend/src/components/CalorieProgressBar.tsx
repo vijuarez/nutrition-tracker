@@ -29,10 +29,6 @@ export default function CalorieProgressBar({
     const min = minCalories ?? 0
     const max = maxCalories ?? Math.max(min, effectiveCalories)
     
-    // Calculate bar dimensions
-    const range = max - min
-    const targetRangeWidth = range > 0 ? (range / max) * 100 : 0
-    
     // Calculate food bar (what's actually consumed)
     // The bar represents calories from 0 to max (or more if exceeded)
     const displayMax = Math.max(max, effectiveCalories)

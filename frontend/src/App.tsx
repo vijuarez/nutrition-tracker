@@ -4,6 +4,7 @@ import CurrentDay from "./components/CurrentDay"
 import Foods from "./components/Foods"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
+import SettingsPage from "./components/SettingsPage"
 
 
 export default function App() {
@@ -15,15 +16,10 @@ export default function App() {
 
           <Route index element={<CurrentDay />} />
           <Route path="foods" element={<Foods />} />
+          <Route path="settings" element={<SettingsPage />} />
 
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-
-          {/* <Route path="concerts">
-            <Route index element={<ConcertsHome />} />
-            <Route path=":city" element={<City />} />
-            <Route path="trending" element={<Trending />} />
-          </Route> */}
 
         </Route>
       </Routes>

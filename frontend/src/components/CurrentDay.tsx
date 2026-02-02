@@ -16,7 +16,6 @@ import Button from "./Button"
 import Table from "./Table"
 import { FaPen, FaWalking } from "react-icons/fa"
 import CalorieProgressBar from "./CalorieProgressBar"
-import Settings from "./Settings"
 
 
 type Props = {
@@ -105,7 +104,6 @@ export default function CurrentDay({ }: Props) {
     }, [lineInfo.linesWithMacros])
 
     const [showDebug, setShowDebug] = useState(false)
-    const [showSettings, setShowSettings] = useState(false)
 
     const { user } = useUser()
 
@@ -142,16 +140,7 @@ export default function CurrentDay({ }: Props) {
                     minCalories={user?.min_calories ?? null}
                     maxCalories={user?.max_calories ?? null}
                 />
-                <Button onClick={() => setShowSettings(!showSettings)}>
-                    {showSettings ? "Close Settings" : "Set Targets"}
-                </Button>
             </header>
-
-            {showSettings && (
-                <div className={s.settings_panel}>
-                    <Settings onClose={() => setShowSettings(false)} />
-                </div>
-            )}
 
             <main>
 
