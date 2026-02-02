@@ -1,7 +1,9 @@
 import s from "./Calendar.module.scss"
 import { useState } from "react"
+import { useNavigate } from "react-router"
 import { useMonthData } from "../hooks/useMonthData"
 import { useUser } from "../hooks/useUser"
+import { useCurrentDateStore } from "../stores/useCurrentDateStore"
 import dayjs from "dayjs"
 import Button from "./Button"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
@@ -10,6 +12,8 @@ export default function Calendar() {
     const [currentDate, setCurrentDate] = useState(dayjs())
     const { monthData, loading } = useMonthData(currentDate.year(), currentDate.month() + 1)
     const { user } = useUser()
+    const navigate = useNavigate()
+    const { setCurrentDate: setStoreDate } = useCurrentDateStore()
 
     const year = currentDate.year()
     const month = currentDate.month() // 0-indexed
@@ -82,6 +86,13 @@ export default function Calendar() {
         setCurrentDate(currentDate.add(1, 'month'))
     }
 
+    function handleDayClick(day: number) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+        const selectedDate = dayjs(dateStr)
+        setStoreDate(selectedDate)
+        navigate('/')
+    }
+
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
     return (
@@ -118,6 +129,7 @@ export default function Calendar() {
                             key={day} 
                             className={`${s.day} ${s[status]}`}
                             title={dayData ? `${dayData.total_calories} cal${dayData.workout_calories ? ` (-${dayData.workout_calories} workout)` : ''}` : 'No data'}
+                            onClick={() => handleDayClick(day)}
                         >
                             <span className={s.day_number}>{day}</span>
                             {dayData && dayData.total_calories > 0 && (
