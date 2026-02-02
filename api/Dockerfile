@@ -12,7 +12,5 @@ RUN npm install --force
 
 COPY . .
 
-EXPOSE 4000
-
 # Run in dev mode for hot reloading
 CMD ["npm", "run", "dev"]
