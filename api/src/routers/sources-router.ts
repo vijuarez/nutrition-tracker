@@ -23,6 +23,7 @@ router.post("/:sourceId/config", async (req, res) => {
 
     // Basic validation: config should be an object
     if (typeof config !== 'object' || config === null) {
+        console.error("❌ Invalid configuration received:", config)
         res.status(status.BAD_REQUEST).json({ error: "Invalid configuration" })
         return
     }
@@ -37,6 +38,7 @@ router.get("/search", async (req, res) => {
     const query = req.query.q as string
 
     if (!query) {
+        console.error("❌ Search query parameter 'q' is missing")
         res.status(status.BAD_REQUEST).json({ error: "Query parameter 'q' is required" })
         return
     }

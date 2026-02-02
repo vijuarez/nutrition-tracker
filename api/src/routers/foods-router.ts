@@ -3,18 +3,11 @@ import { z } from "zod"
 import { foodService } from "../services/foods-service"
 import status from "http-status"
 import { userGuardMiddleware } from "../middleware/user-guard-middleware"
+import { logZodError } from "../utils"
 
 const router = Express.Router()
 
 router.use(userGuardMiddleware)
-
-
-router.get("/", async (req, res) => {
-    const foods = await foodService.getAllFoods()
-    res.json(foods)
-})
-
-
 
 const foodSchema = z.object({
     name: z.string(),
@@ -28,12 +21,18 @@ const foodSchema = z.object({
 
 const foodsSchema = z.array(foodSchema)
 
+/** List all foods */
+router.get("/", async (req, res) => {
+    const foods = await foodService.getAllFoods()
+    res.json(foods)
+})
 
 /** Replace all foods */
 router.put("/", async (req, res) => {
     const bodyParseResult = foodsSchema.safeParse(req.body)
 
     if (bodyParseResult.error) {
+        logZodError(bodyParseResult.error)
         res.status(status.BAD_REQUEST).json({ error: bodyParseResult.error })
         return
     }
@@ -43,11 +42,9 @@ router.put("/", async (req, res) => {
     res.status(status.CREATED).json(foods)
 })
 
-
 /** Create new food */
 router.post("/", async (req, res) => {
     const createFoodSchema = z.object({
-        // id: z.string(),
         name: z.string(),
         calories: z.number(),
         carbs: z.number(),
@@ -69,6 +66,7 @@ router.post("/", async (req, res) => {
     }
 
     if (result.error) {
+        logZodError(result.error)
         res.status(400).json({ error: result.error })
     }
     else {
@@ -78,7 +76,6 @@ router.post("/", async (req, res) => {
             await foodService.addFood(result.data)
         res.status(201).json({ message: "ok" })
     }
-
 })
 
 router.get("/:food_id", async (req, res) => {
@@ -110,6 +107,7 @@ router.patch("/:food_id", async (req, res) => {
     const result = updateFoodSchema.safeParse(req.body)
 
     if (result.error) {
+        logZodError(result.error)
         res.status(400).json({ error: result.error })
     }
     else {

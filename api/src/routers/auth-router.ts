@@ -2,51 +2,14 @@ import Express from "express"
 import { z } from "zod"
 import { sessionService } from "../services/session-service"
 import { userService } from "../services/user-service"
-import { checkPasswordHash, sessionIsValid } from "../utils"
+import { checkPasswordHash, logZodError, sessionIsValid } from "../utils"
 import { User } from "../db/schema"
-import { sessionIdCookie } from "../constants"
-import { env } from "../env"
 import { userGuardMiddleware } from "../middleware/user-guard-middleware"
 import status from "http-status"
-
+import { sessionIdCookie } from "../constants"
+import { env } from "../env"
 
 const router = Express.Router()
-
-
-
-
-// Logout by deleting the current session
-router.post("/logout", userGuardMiddleware, async (req: any, res) => {
-    const sid = req.sid
-
-    if (!sid) {
-        res.status(status.BAD_REQUEST).json({ message: "Invalid request" })
-        return
-    }
-
-    const ok = await sessionService.deleteSession(sid)
-
-    if (!ok) {
-        res.json(status.INTERNAL_SERVER_ERROR).json({ message: "Could not close session" })
-        return
-    }
-
-    res.json({ message: "Logged out" })
-})
-
-
-router.get("/user", userGuardMiddleware, async (req: any, res) => {
-
-    const user = req.user as User
-
-    res.json({
-        id: user?.id,
-        username: user?.username,
-        created_on: user?.created_on,
-        updated_on: user?.updated_on,
-    })
-})
-
 
 const userSchema = z.object({
     username: z.string().min(3),
@@ -55,7 +18,6 @@ const userSchema = z.object({
 
 // Create new user
 router.post("/signup", async (req, res) => {
-
     // This route is only enabled when there are no users
     const users = await userService.countUsers()
 
@@ -67,6 +29,7 @@ router.post("/signup", async (req, res) => {
     const result = userSchema.safeParse(req.body)
 
     if (result.error) {
+        logZodError(result.error)
         res.status(status.BAD_REQUEST).json({
             message: "Invalid/missing username and/or password provided",
             error: result.error,
@@ -91,14 +54,12 @@ router.post("/signup", async (req, res) => {
     })
 })
 
-
-
 // Login with username and password
 router.post("/login", async (req, res) => {
-
     const result = userSchema.safeParse(req.body)
 
     if (result.error) {
+        logZodError(result.error)
         res.status(400).json({ error: result.error })
         return
     }
@@ -164,5 +125,33 @@ router.post("/login", async (req, res) => {
     })
 })
 
+router.post("/logout", async (req, res) => {
+    const { sid } = req.cookies
+
+    if (!sid) {
+        res.json({ message: "Already logged out" })
+        return
+    }
+
+    const ok = await sessionService.deleteSession(sid)
+
+    if (!ok) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ message: "Could not close session" })
+        return
+    }
+
+    res.json({ message: "Logged out" })
+})
+
+router.get("/user", userGuardMiddleware, async (req: any, res) => {
+    const user = req.user as User
+
+    res.json({
+        id: user?.id,
+        username: user?.username,
+        created_on: user?.created_on,
+        updated_on: user?.updated_on,
+    })
+})
 
 export const authRouter = router

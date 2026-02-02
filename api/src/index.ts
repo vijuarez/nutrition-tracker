@@ -22,16 +22,31 @@ apiRouter.use("/", (req, res) => { res.json({ msg: "Home route" }) })
 
 const app = Express()
 app.disable('x-powered-by')
+
+// Request logger
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`)
+    next()
+})
+
 app.use(cors({ origin: env.FRONTEND_ORIGIN, credentials: true })) // Required for cookies to work with CORS
 app.use(cookieParser())
 app.use(Express.json()) // Body parser
 app.use("/api", apiRouter)
 app.use("/", (req, res) => { res.json({ msg: "Go to /api" }) })
 
-app.listen(4000, async () => {
+// Error handler
+app.use((err: any, req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    console.error("❌ UNHANDLED ERROR:", err)
+    res.status(500).json({ error: "Internal Server Error", details: err.message })
+})
+
+const PORT = parseInt(env.API_PORT, 10)
+
+app.listen(PORT, async () => {
     const mode = env.DEV ? "DEVELOPMENT" : "PRODUCTION"
     await initDb()
-    console.log(`➡️  Express running on internal port 4000...`)
+    console.log(`➡️  Express running on internal port ${PORT}...`)
     console.log(`➡️  mode = ${mode}`)
     console.log(`➡️  guard_routes = ${env.GUARD_ROUTES.toString().toUpperCase()}`)
 })

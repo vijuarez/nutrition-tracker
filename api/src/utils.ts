@@ -50,3 +50,7 @@ export function shuffleArray<T>(array: T[]) {
     return array;
 }
 
+export function logZodError(error: any) {
+    console.error("❌ Zod Validation Error:", JSON.stringify(error.format(), null, 2))
+}
+

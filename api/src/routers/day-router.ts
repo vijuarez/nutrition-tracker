@@ -3,6 +3,7 @@ import { dayEntryService } from "../services/day-entry-service"
 import { z } from "zod"
 import status from "http-status"
 import { dayService } from "../services/day-service"
+import { logZodError } from "../utils"
 
 
 const router = Express.Router()
@@ -58,6 +59,7 @@ router.put("/:date", async (req, res) => {
     const bodyParseResult = putDaySchema.safeParse(req.body)
 
     if (bodyParseResult.error) {
+        logZodError(bodyParseResult.error)
         res.status(status.BAD_REQUEST).json({ error: bodyParseResult.error })
         return
     }

@@ -6,6 +6,7 @@ const envSchema = z.object({
     DEV: z.enum(["true", "false"]).default("false"),
     GUARD_ROUTES: z.enum(["true", "false"]).default("true"),
     FRONTEND_ORIGIN: z.string(),
+    API_PORT: z.string().default("4000"),
 })
 
 const rawEnv = envSchema.parse(process.env)
