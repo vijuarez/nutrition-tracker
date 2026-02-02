@@ -86,11 +86,24 @@
 
         .source_item {
             background-color: white;
-            padding: 15px;
+            padding: 10px 15px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: grid;
-            gap: 10px;
+
+            .source_header {
+                padding: 5px 0;
+            }
+
+            .source_content {
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+
+                button {
+                    justify-self: center;
+                    margin-top: 5px;
+                }
+            }
 
             label {
                 display: grid;

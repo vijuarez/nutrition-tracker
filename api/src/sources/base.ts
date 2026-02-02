@@ -18,6 +18,7 @@ export abstract class FoodSource {
   abstract readonly id: string;
   abstract readonly name: string;
   abstract readonly description: string;
+  readonly isDevOnly: boolean = false;
 
   // Defines what the UI needs to collect from the user (e.g., API Key)
   abstract getConfigFields(): SourceConfigField[];

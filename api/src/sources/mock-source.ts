@@ -4,6 +4,7 @@ export class MockSource extends FoodSource {
   readonly id = 'mock';
   readonly name = 'Mock Source';
   readonly description = 'A mock source for testing purposes. Requires a dummy API key.';
+  readonly isDevOnly = true;
 
   getConfigFields(): SourceConfigField[] {
     return [

@@ -2,10 +2,20 @@ import { db } from "../db/db";
 import { UserSourceConfig } from "../db/schema";
 import { FoodSource, SourceSearchResult } from "../sources/base";
 import { MockSource } from "../sources/mock-source";
+import { UsdaSource } from "../sources/usda-source";
+import { env } from "../env";
 
 const REGISTRY: FoodSource[] = [
     new MockSource(),
+    new UsdaSource(),
 ];
+
+function getVisibleSources() {
+    if (env.DEV) {
+        return REGISTRY;
+    }
+    return REGISTRY.filter(s => !s.isDevOnly);
+}
 
 async function getUserConfigs(userId: string): Promise<Record<string, any>> {
     const configs = await db
@@ -45,7 +55,7 @@ async function saveUserConfig(userId: string, sourceId: string, config: any) {
 async function getAvailableSources(userId: string) {
     const userConfigs = await getUserConfigs(userId);
 
-    return REGISTRY.map(source => ({
+    return getVisibleSources().map(source => ({
         id: source.id,
         name: source.name,
         description: source.description,
@@ -56,7 +66,7 @@ async function getAvailableSources(userId: string) {
 
 async function searchAll(userId: string, query: string): Promise<SourceSearchResult[]> {
     const userConfigs = await getUserConfigs(userId);
-    const readySources = REGISTRY.filter(s => s.isReady(userConfigs[s.id]));
+    const readySources = getVisibleSources().filter(s => s.isReady(userConfigs[s.id]));
 
     const searchPromises = readySources.map(async (source) => {
         try {

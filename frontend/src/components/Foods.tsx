@@ -31,6 +31,7 @@ export default function Foods({ }: Props) {
     const [showRemoteSearch, setShowRemoteSearch] = useState(false)
 
     const [sourceConfigs, setSourceConfigs] = useState<Record<string, Record<string, string>>>({})
+    const [expandedSourceId, setExpandedSourceId] = useState<string | null>(null)
 
     const [error, setError] = useState<any>(null)
 
@@ -267,27 +268,43 @@ export default function Foods({ }: Props) {
                 <header>Sources Configuration</header>
                 {Array.isArray(sources) && sources.map(source => (
                     <div key={source.id} className={s.source_item}>
-                        <strong>{source.name}</strong> {source.isReady ? '✅' : '❌'}
-                        <p><small>{source.description}</small></p>
-                        {source.fields.map(field => (
-                            <label key={field.key}>
-                                {field.label}
-                                <input
-                                    type={field.type}
-                                    value={sourceConfigs[source.id]?.[field.key] || ''}
-                                    onChange={e => setSourceConfigs({
-                                        ...sourceConfigs,
-                                        [source.id]: {
-                                            ...(sourceConfigs[source.id] || {}),
-                                            [field.key]: e.target.value
-                                        }
-                                    })}
-                                />
-                            </label>
-                        ))}
-                        <Button onClick={() => saveConfig({ sourceId: source.id, config: sourceConfigs[source.id] || {} })}>
-                            Save Config
-                        </Button>
+                        <div
+                            className={s.source_header}
+                            onClick={() => setExpandedSourceId(expandedSourceId === source.id ? null : source.id)}
+                            style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                        >
+                            <div>
+                                <strong>{source.name}</strong> {source.isReady ? '✅' : '❌'}
+                                <p style={{ margin: 0 }}><small>{source.description}</small></p>
+                            </div>
+                            <Button unstyled>
+                                {expandedSourceId === source.id ? <FaArrowUp /> : <FaArrowDown />}
+                            </Button>
+                        </div>
+
+                        {expandedSourceId === source.id && (
+                            <div className={s.source_content} style={{ marginTop: '1rem', display: 'grid', gap: '10px' }}>
+                                {source.fields.map(field => (
+                                    <label key={field.key}>
+                                        {field.label}
+                                        <input
+                                            type={field.type}
+                                            value={sourceConfigs[source.id]?.[field.key] || ''}
+                                            onChange={e => setSourceConfigs({
+                                                ...sourceConfigs,
+                                                [source.id]: {
+                                                    ...(sourceConfigs[source.id] || {}),
+                                                    [field.key]: e.target.value
+                                                }
+                                            })}
+                                        />
+                                    </label>
+                                ))}
+                                <Button onClick={() => saveConfig({ sourceId: source.id, config: sourceConfigs[source.id] || {} })}>
+                                    Save Config
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </section>
