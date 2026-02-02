@@ -51,4 +51,7 @@ app.listen(PORT, async () => {
     console.log(`➡️  Express running on internal port ${PORT}...`)
     console.log(`➡️  mode = ${mode}`)
     console.log(`➡️  guard_routes = ${env.GUARD_ROUTES.toString().toUpperCase()}`)
+    if (env.SINGLE_USER_MODE) {
+        console.log("⚠️  SINGLE USER MODE ENABLED - Authentication is disabled. All users will share the same account.")
+    }
 })

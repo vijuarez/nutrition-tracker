@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router"
 import { useUserStore } from "../stores/useUserStore"
 import { api } from "../api"
 import { useNavigate } from "react-router"
+import { useEffect, useState } from "react"
 import Button from "./Button"
 
 
@@ -19,6 +20,22 @@ export default function Header({ }: Props) {
 
     const { user, setUser } = useUserStore()
     const loggedIn = !!user
+    const [singleUserMode, setSingleUserMode] = useState(false)
+
+    useEffect(() => {
+        async function checkMode() {
+            try {
+                const mode = await api.checkAuthMode()
+                setSingleUserMode(mode.singleUserMode)
+            } catch {
+                // If we can't check mode, assume normal mode
+                setSingleUserMode(false)
+            }
+        }
+        if (loggedIn) {
+            checkMode()
+        }
+    }, [loggedIn])
 
     async function logout() {
         const ok = await api.logout()
@@ -52,7 +69,7 @@ export default function Header({ }: Props) {
             </nav>
 
             {
-                loggedIn &&
+                loggedIn && !singleUserMode &&
                 <Button onClick={logout}>Logout</Button>
             }
 
