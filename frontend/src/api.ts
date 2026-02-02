@@ -1,5 +1,5 @@
 import axios from "axios"
-import type { Day, FoodSource, SourceSearchResult, User, UserTargets } from "./types"
+import type { Day, FoodSource, MonthlyData, SourceSearchResult, User, UserTargets } from "./types"
 import { env } from "./env"
 import type { Food } from "./types.backend"
 
@@ -136,6 +136,17 @@ async function updateUserTargets(targets: UserTargets): Promise<User | null> {
     }
 }
 
+async function getMonthData(year: number, month: number): Promise<MonthlyData | null> {
+    try {
+        const response = await axios.get(`day/month/${year}/${month}`)
+        const ok = response.status >= 200 && response.status < 400
+        return ok ? response.data : null
+    }
+    catch (error) {
+        return null
+    }
+}
+
 export const api = {
     getDay,
     setDay,
@@ -155,4 +166,5 @@ export const api = {
     searchRemote,
     getUser,
     updateUserTargets,
+    getMonthData,
 }

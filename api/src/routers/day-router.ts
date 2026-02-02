@@ -8,7 +8,27 @@ import { logZodError } from "../utils"
 
 const router = Express.Router()
 
+// Get monthly summary - must be before /:date to avoid conflict
+router.get("/month/:year/:month", async (req, res) => {
+    const { year, month } = req.params
+    const yearNum = parseInt(year, 10)
+    const monthNum = parseInt(month, 10)
 
+    if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+        res.status(status.BAD_REQUEST).json({
+            message: "Invalid year or month",
+        })
+        return
+    }
+
+    const days = await dayService.getDaysByMonth(yearNum, monthNum)
+
+    res.json({
+        year: yearNum,
+        month: monthNum,
+        days,
+    })
+})
 
 router.get("/:date", async (req, res) => {
 

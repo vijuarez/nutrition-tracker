@@ -15,6 +15,18 @@ export type UserTargets = {
     max_calories: number | null
 }
 
+export type DaySummary = {
+    date: string
+    total_calories: number
+    workout_calories: number | null
+}
+
+export type MonthlyData = {
+    year: number
+    month: number
+    days: DaySummary[]
+}
+
 export type Day = Omit<DayBackend, "complete"> & {
     complete: boolean
     entries: Omit<DayEntry, "date" | "id">[]

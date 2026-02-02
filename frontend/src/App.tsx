@@ -5,6 +5,7 @@ import Foods from "./components/Foods"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
 import SettingsPage from "./components/SettingsPage"
+import Calendar from "./components/Calendar"
 
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
 
           <Route index element={<CurrentDay />} />
           <Route path="foods" element={<Foods />} />
+          <Route path="calendar" element={<Calendar />} />
           <Route path="settings" element={<SettingsPage />} />
 
           <Route path="login" element={<Login />} />

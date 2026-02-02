@@ -37,6 +37,7 @@ export default function Header({ }: Props) {
                     <>
                         <Link to="/" data-active={pathname === "/"}>Home</Link>
                         <Link to="/foods" data-active={pathname.startsWith("/foods")}>Foods</Link>
+                        <Link to="/calendar" data-active={pathname.startsWith("/calendar")}>Calendar</Link>
                         <Link to="/settings" data-active={pathname.startsWith("/settings")}>Settings</Link>
                     </>
                 }
