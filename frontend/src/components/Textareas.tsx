@@ -23,7 +23,7 @@ export default function Textareas({ loading, onChange, textareaValue, parsedLine
             <aside>
                 {
                     parsedLines.map((line, i) => (
-                        <div data-hidden={line.grams === 0} key={i}>
+                        <div data-hidden={line.grams === 0 || line.isSeparator} key={i}>
                             {(line.currentFood || line.override_cal) ? Math.round(line.macros.calories) : "?"}
                         </div>
                     ))
@@ -45,6 +45,14 @@ export default function Textareas({ loading, onChange, textareaValue, parsedLine
                 <div className={s.shadow_textarea}>
                     {
                         parsedLines.map((line, i) => {
+
+                            if (line.isSeparator) {
+                                return (
+                                    <div key={i} className={s.separator_line}>
+                                        <hr />
+                                    </div>
+                                )
+                            }
 
                             // Show food name, "?", or nothing
                             const perfectMatch = line.currentFood?.name === line.foodName

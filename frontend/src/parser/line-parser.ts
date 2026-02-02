@@ -6,6 +6,7 @@ export type ParsedLine = {
     grams: number | null
     override_cal: number | null
     override_cal_100g: number | null
+    isSeparator?: boolean
 }
 
 /*
@@ -16,6 +17,17 @@ Extract info from line:
 - calories override (if any)
 */
 export function parseLine(text: string): ParsedLine {
+
+    if (text.trim() === "---") {
+        return {
+            raw: text,
+            foodName: null,
+            grams: null,
+            override_cal: null,
+            override_cal_100g: null,
+            isSeparator: true,
+        }
+    }
 
     let tokens = tokenizeLine(text)
     const foodNameToken = tokens.find(token => token.type === "text")
@@ -34,6 +46,7 @@ export function parseLine(text: string): ParsedLine {
                 grams: num.value,
                 override_cal_100g: null,
                 raw: text,
+                isSeparator: false,
             }
         if (num.unit === "g")
             return {
@@ -42,6 +55,7 @@ export function parseLine(text: string): ParsedLine {
                 override_cal: null,
                 override_cal_100g: null,
                 raw: text,
+                isSeparator: false,
             }
 
         if (num.unit === "c")
@@ -51,6 +65,7 @@ export function parseLine(text: string): ParsedLine {
                 override_cal: num.value,
                 override_cal_100g: null,
                 raw: text,
+                isSeparator: false,
             }
     }
 
@@ -78,6 +93,7 @@ export function parseLine(text: string): ParsedLine {
                 override_cal: null,
                 override_cal_100g: A.value,
                 raw: text,
+                isSeparator: false,
             }
         }
         else {
@@ -87,6 +103,7 @@ export function parseLine(text: string): ParsedLine {
                 override_cal: null,
                 override_cal_100g: B.value,
                 raw: text,
+                isSeparator: false,
             }
         }
     }
@@ -98,6 +115,7 @@ export function parseLine(text: string): ParsedLine {
         grams: null,
         override_cal: null,
         override_cal_100g: null,
+        isSeparator: false,
     }
 }
 

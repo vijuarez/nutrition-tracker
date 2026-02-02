@@ -95,6 +95,19 @@ $bg-color: #eef8dd;
             opacity: 0.3;
             margin-left: .5em;
         }
+
+        .separator_line {
+            display: flex;
+            align-items: center;
+            height: 1.6rem;
+
+            hr {
+                width: 100%;
+                border: none;
+                border-top: 1px solid rgba(0, 100, 0, 0.2);
+                margin: 0;
+            }
+        }
     }
 
     [data-hidden=true] {

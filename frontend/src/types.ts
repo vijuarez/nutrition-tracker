@@ -23,6 +23,7 @@ export type ParsedLineWithFoods = {
     override_cal: number | null
     override_cal_100g: number | null
     sort: number
+    isSeparator: boolean
 }
 
 
