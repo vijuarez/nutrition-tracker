@@ -5,6 +5,7 @@ const envSchema = z.object({
     DATABASE_URL: z.string(),
     DEV: z.enum(["true", "false"]).default("false"),
     GUARD_ROUTES: z.enum(["true", "false"]).default("true"),
+    SINGLE_USER_MODE: z.enum(["true", "false"]).default("false"),
     FRONTEND_ORIGIN: z.string().transform(val => val.split(',').map(s => s.trim())),
     API_PORT: z.string().default("4000"),
 })
@@ -15,4 +16,5 @@ export const env = {
     ...rawEnv,
     DEV: rawEnv.DEV === "true",
     GUARD_ROUTES: rawEnv.GUARD_ROUTES === "true",
+    SINGLE_USER_MODE: rawEnv.SINGLE_USER_MODE === "true",
 }

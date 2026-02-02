@@ -2,6 +2,7 @@ import Express from "express"
 import { z } from "zod"
 import { sessionService } from "../services/session-service"
 import { userService } from "../services/user-service"
+import { singleUserService } from "../services/single-user-service"
 import { checkPasswordHash, logZodError, sessionIsValid } from "../utils"
 import { User } from "../db/schema"
 import { userGuardMiddleware } from "../middleware/user-guard-middleware"
@@ -14,6 +15,13 @@ const router = Express.Router()
 const userSchema = z.object({
     username: z.string().min(3),
     password: z.string().min(5),
+})
+
+// Check if single user mode is enabled
+router.get("/mode", async (req, res) => {
+    res.json({
+        singleUserMode: env.SINGLE_USER_MODE,
+    })
 })
 
 // Create new user
@@ -55,7 +63,31 @@ router.post("/signup", async (req, res) => {
 })
 
 // Login with username and password
+// In single user mode, automatically logs in the single user without credentials
 router.post("/login", async (req, res) => {
+    // Single user mode - automatically login without credentials
+    if (env.SINGLE_USER_MODE) {
+        const user = await singleUserService.getOrCreateSingleUser()
+        
+        if (!user) {
+            res.status(500).json({ message: "Single user mode enabled but could not create user" })
+            return
+        }
+
+        res.status(201).json({
+            message: "Logged in (single user mode)",
+            user: {
+                id: user.id,
+                username: user.username,
+                created_on: user.created_on,
+                updated_on: user.updated_on,
+                min_calories: user.min_calories,
+                max_calories: user.max_calories,
+            },
+        })
+        return
+    }
+
     const result = userSchema.safeParse(req.body)
 
     if (result.error) {
@@ -94,6 +126,8 @@ router.post("/login", async (req, res) => {
                     created_on: user.created_on,
                     username: user.username,
                     updated_on: user.updated_on,
+                    min_calories: user.min_calories,
+                    max_calories: user.max_calories,
                 },
             })
             return
@@ -121,6 +155,8 @@ router.post("/login", async (req, res) => {
             username: user.username,
             created_on: user.created_on,
             updated_on: user.updated_on,
+            min_calories: user.min_calories,
+            max_calories: user.max_calories,
         },
     })
 })
@@ -151,6 +187,8 @@ router.get("/user", userGuardMiddleware, async (req: any, res) => {
         username: user?.username,
         created_on: user?.created_on,
         updated_on: user?.updated_on,
+        min_calories: user?.min_calories,
+        max_calories: user?.max_calories,
     })
 })
 

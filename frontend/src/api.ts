@@ -100,6 +100,11 @@ async function logout(): Promise<boolean> {
     return ok
 }
 
+async function checkAuthMode(): Promise<{ singleUserMode: boolean }> {
+    const response = await axios.get("auth/mode")
+    return response.data
+}
+
 async function getSources(): Promise<FoodSource[]> {
     const response = await axios.get("sources")
     return response.data
@@ -158,6 +163,7 @@ export const api = {
     loginWithCredentials,
     loginWithCookies,
     logout,
+    checkAuthMode,
     createFoods,
     deleteFood,
     updateFood,

@@ -20,26 +20,47 @@ export default function Layout({ }: Props) {
 
     const { setUser } = useUserStore()
 
-    // On page load, check if onboard:
-    // If true, redirect to signup page.
-    // Otherwise, try logging in with cookies
-    // if they exist and have not expired yet.
+    // On page load, check auth mode and handle accordingly:
+    // - Single user mode: automatically login without credentials
+    // - Normal mode: check onboarding -> check cookies -> redirect to login if needed
     useEffect(() => {
-        async function onboard() {
-            const onboard = await api.checkOnboarding()
-            if (onboard) {
-                navigate("/signup")
-                return
-            }
-            const user = await api.loginWithCookies()
-            if (!user) {
+        async function initAuth() {
+            try {
+                // Check if single user mode is enabled
+                const authMode = await api.checkAuthMode()
+                
+                if (authMode.singleUserMode) {
+                    // Single user mode - automatically login without credentials
+                    const response = await api.loginWithCredentials("", "") // Backend ignores credentials in single user mode
+                    if (response && 'user' in response) {
+                        setUser(response.user)
+                        navigate("/")
+                    }
+                    return
+                }
+                
+                // Normal mode - check if onboarding is needed
+                const onboard = await api.checkOnboarding()
+                if (onboard) {
+                    navigate("/signup")
+                    return
+                }
+                
+                // Normal mode - try to login with cookies
+                const user = await api.loginWithCookies()
+                if (!user) {
+                    navigate("/login")
+                    return
+                }
+                setUser(user)
+                navigate("/")
+            } catch (error) {
+                console.error("Auth initialization error:", error)
+                // In case of error, redirect to login
                 navigate("/login")
-                return
             }
-            setUser(user)
-            navigate("/")
         }
-        onboard()
+        initAuth()
     }, [])
 
     // On page load, fetch all custom foods and load them into Fuse
