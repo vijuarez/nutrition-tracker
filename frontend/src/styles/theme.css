@@ -171,26 +171,3 @@
   /* Progress */
   --color-progress-track: #333333;
 }
-
-/* High Contrast Theme */
-.high-contrast {
-  --color-primary: #006600;
-  --color-primary-light: #008800;
-  --color-success: #008800;
-  --color-success-light: #00aa00;
-  --color-warning: #cc8800;
-  --color-danger: #cc0000;
-  --color-info: #0066cc;
-
-  --color-text-primary: #000000;
-  --color-text-secondary: #000000;
-  --color-text-muted: #333333;
-
-  --color-border: #000000;
-  --color-border-input: #000000;
-  --color-border-focus: #006600;
-
-  --color-bg-page: #ffffff;
-  --color-bg-card: #ffffff;
-  --color-bg-input: #ffffff;
-}

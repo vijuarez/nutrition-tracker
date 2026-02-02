@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
-type Theme = 'light' | 'dark' | 'high-contrast';
+type Theme = 'light original' | 'dark original';
 
 interface ThemeContextType {
   theme: Theme;
@@ -17,31 +17,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     // Try to get theme from localStorage on init
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme;
-      if (saved && ['light', 'dark', 'high-contrast'].includes(saved)) {
+      if (saved === 'light original' || saved === 'dark original') {
         return saved;
       }
       // Check system preference
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
+        return 'dark original';
       }
     }
-    return 'light';
+    return 'light original';
   });
 
-  const isDark = theme === 'dark';
+  const isDark = theme === 'dark original';
 
   useEffect(() => {
     // Apply theme class to document
     const root = document.documentElement;
     
-    // Remove all theme classes
-    root.classList.remove('dark-theme', 'high-contrast');
+    // Remove dark theme class
+    root.classList.remove('dark-theme');
     
-    // Add appropriate theme class
-    if (theme === 'dark') {
+    // Add dark theme class if dark mode
+    if (theme === 'dark original') {
       root.classList.add('dark-theme');
-    } else if (theme === 'high-contrast') {
-      root.classList.add('high-contrast');
     }
     
     // Save to localStorage

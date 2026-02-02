@@ -1,34 +1,25 @@
 .ThemeToggle {
-  display: flex;
-  gap: 4px;
-  align-items: center;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-primary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 
-  .themeButton {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
-    padding: 6px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  &:hover {
+    border-color: var(--color-border-focus);
+  }
 
-    &:hover {
-      background: var(--color-bg-hover);
-      border-color: var(--color-border-input);
-    }
+  &:focus {
+    outline: none;
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 2px var(--color-primary-transparent);
+  }
 
-    &.active {
-      background: var(--color-primary-transparent);
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-    }
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
+  option {
+    background: var(--color-bg-input);
+    color: var(--color-text-primary);
   }
 }
