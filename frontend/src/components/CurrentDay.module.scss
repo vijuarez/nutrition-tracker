@@ -36,15 +36,18 @@
 
         h1 {
             font-size: 1.5rem;
-            color: darkgreen;
+            color: var(--color-primary);
+            transition: color 0.3s ease;
         }
 
         small:nth-of-type(1) {
-            color: darkgreen;
+            color: var(--color-primary);
+            transition: color 0.3s ease;
         }
 
         small:nth-of-type(2) {
-            color: brown;
+            color: var(--color-secondary);
+            transition: color 0.3s ease;
         }
     }
 
@@ -66,8 +69,8 @@
         border-radius: 5px;
         display: grid;
         gap: 5px;
-        // background-color: #f4f4f4;
-        background-color: rgba($color: darkgreen, $alpha: 0.05);
+        background-color: var(--color-primary-ultra-transparent);
+        transition: background-color 0.3s ease;
         padding: 10px;
         max-width: min(90vw, 20rem);
 
@@ -90,14 +93,11 @@
         input {
             box-sizing: border-box;
             width: 100%;
-            // background-color: rgba($color: darkgreen, $alpha: 0.1);
-            color: darkgreen;
-            border: 1px solid darkgreen;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
             border-radius: 3px;
-            // border-bottom: 1px solid #ccc;
-            // background-color: white;
-            // border: 1px solid transparent;
             padding: .3em .5em;
+            transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
         }
     }
 }
@@ -111,7 +111,8 @@
         position: absolute;
         bottom: 5px;
         right: 5px;
-        color: #999;
+        color: var(--color-text-muted);
+        transition: color 0.3s ease;
     }
 }
 
@@ -123,13 +124,14 @@
 
 table.MacrosTable {
     border-collapse: collapse;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-border);
 
     th,
     td {
         padding: 4px 8px;
         text-align: right;
-        border: 1px solid #ddd;
+        border: 1px solid var(--color-border);
+        transition: border-color 0.3s ease;
     }
 
     th:first-child,

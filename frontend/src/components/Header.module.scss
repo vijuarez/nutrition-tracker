@@ -1,10 +1,11 @@
 .Header {
-    background-color: #e2efd3;
+    background-color: var(--color-primary-bg);
     padding: 10px;
     display: flex;
     justify-content: space-between;
     position: sticky;
     top: 0;
+    transition: background-color 0.3s ease;
 
     nav {
         max-width: 1200px;
@@ -18,8 +19,9 @@
     }
 
     a {
-        color: rgb(4, 110, 4);
+        color: var(--color-primary-light);
         opacity: 0.7;
+        transition: color 0.3s ease, opacity 0.3s ease;
     }
 
     a:hover,

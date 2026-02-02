@@ -5,8 +5,9 @@
     font-size: inherit;
 
     &:hover {
-        background-color: rgba(0, 100, 0, 0.1);
+        background-color: var(--color-primary-transparent);
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     &:active {
@@ -19,8 +20,9 @@
     }
 
     &[data-unstyled=false] {
-        border: 1px solid darkgreen;
+        border: 1px solid var(--color-primary);
         background: none;
         border-radius: 4px;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
     }
 }

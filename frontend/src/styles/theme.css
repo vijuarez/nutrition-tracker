@@ -1,0 +1,196 @@
+:root {
+  /* Primary Theme Colors */
+  --color-primary: darkgreen;
+  --color-primary-light: rgb(4, 110, 4);
+  --color-primary-bg: #e2efd3;
+  --color-primary-bg-light: #eef8dd;
+  --color-primary-transparent: rgba(0, 100, 0, 0.1);
+  --color-primary-semi-transparent: rgba(0, 100, 0, 0.2);
+  --color-primary-ultra-transparent: rgba(0, 100, 0, 0.05);
+
+  /* Secondary/Accent Colors */
+  --color-secondary: brown;
+  --color-accent-orange: darkorange;
+  --color-accent-yellow: #ffc107;
+  --color-accent-blue: steelblue;
+  --color-accent-purple: darkorchid;
+
+  /* Success Colors (Green) */
+  --color-success: #28a745;
+  --color-success-light: #4CAF50;
+  --color-success-lighter: #8BC34A;
+  --color-success-bg: #d4edda;
+  --color-success-bg-transparent: rgba(40, 167, 69, 0.15);
+  --color-success-text: #155724;
+
+  /* Warning Colors (Yellow/Amber) */
+  --color-warning: #ffc107;
+  --color-warning-bg: #fff3cd;
+  --color-warning-text: #856404;
+
+  /* Danger/Error Colors (Red) */
+  --color-danger: #dc3545;
+  --color-danger-bg: #f8d7da;
+  --color-danger-text: #721c24;
+
+  /* Info Colors (Blue) */
+  --color-info: #2196F3;
+  --color-info-light: #03A9F4;
+
+  /* Neutral Grays */
+  --color-black: black;
+  --color-white: white;
+  --color-gray-100: #fafafa;
+  --color-gray-200: #f5f5f5;
+  --color-gray-300: #f4f4f4;
+  --color-gray-400: #f8f9fa;
+  --color-gray-500: #eee;
+  --color-gray-600: #e0e0e0;
+  --color-gray-700: #ddd;
+  --color-gray-800: #ccc;
+  --color-gray-900: #999;
+  --color-gray-1000: #666;
+
+  /* Text Colors */
+  --color-text-primary: var(--color-primary);
+  --color-text-secondary: var(--color-gray-1000);
+  --color-text-muted: var(--color-gray-900);
+  --color-text-success: var(--color-success-text);
+  --color-text-warning: var(--color-warning-text);
+  --color-text-danger: var(--color-danger-text);
+  --color-text-on-primary: white;
+
+  /* Background Colors */
+  --color-bg-page: white;
+  --color-bg-card: var(--color-gray-400);
+  --color-bg-input: white;
+  --color-bg-hover: var(--color-gray-200);
+  --color-bg-selected: var(--color-primary-bg-light);
+
+  /* Border Colors */
+  --color-border: var(--color-gray-700);
+  --color-border-light: var(--color-gray-500);
+  --color-border-input: var(--color-gray-800);
+  --color-border-focus: var(--color-success-light);
+
+  /* Shadow Colors */
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-medium: rgba(0, 0, 0, 0.15);
+  --color-shadow-strong: rgba(0, 0, 0, 0.2);
+
+  /* Calendar Status Colors */
+  --color-calendar-no-data-bg: var(--color-gray-200);
+  --color-calendar-no-data-text: var(--color-gray-900);
+  --color-calendar-under-bg: var(--color-warning-bg);
+  --color-calendar-under-border: var(--color-warning);
+  --color-calendar-under-text: var(--color-warning-text);
+  --color-calendar-in-range-bg: var(--color-success-bg);
+  --color-calendar-in-range-border: var(--color-success);
+  --color-calendar-in-range-text: var(--color-success-text);
+  --color-calendar-over-bg: var(--color-danger-bg);
+  --color-calendar-over-border: var(--color-danger);
+  --color-calendar-over-text: var(--color-danger-text);
+
+  /* Progress Bar Colors */
+  --color-progress-track: #e9ecef;
+  --color-progress-food-start: var(--color-success-light);
+  --color-progress-food-end: var(--color-success-lighter);
+  --color-progress-workout-start: var(--color-info);
+  --color-progress-workout-end: var(--color-info-light);
+  --color-progress-target-zone: var(--color-success-bg-transparent);
+  --color-progress-target-marker: var(--color-success);
+
+  /* Food/Input Specific */
+  --color-food-input-bg: rgba(3, 74, 3, 0.1);
+  --color-food-input-text: rgb(3, 74, 3);
+  --color-food-source-bg: rgba(0, 0, 100, 0.05);
+}
+
+/* Dark Theme - Can be activated by adding .dark-theme class to body or html */
+.dark-theme {
+  /* Invert primary colors for dark mode */
+  --color-primary: #4ade80;
+  --color-primary-light: #86efac;
+  --color-primary-bg: #1a2e1a;
+  --color-primary-bg-light: #0f1f0f;
+  --color-primary-transparent: rgba(74, 222, 128, 0.15);
+  --color-primary-semi-transparent: rgba(74, 222, 128, 0.3);
+  --color-primary-ultra-transparent: rgba(74, 222, 128, 0.08);
+
+  /* Adjust neutrals for dark mode */
+  --color-black: white;
+  --color-white: #1a1a1a;
+  --color-gray-100: #2a2a2a;
+  --color-gray-200: #333333;
+  --color-gray-300: #3a3a3a;
+  --color-gray-400: #2d2d2d;
+  --color-gray-500: #404040;
+  --color-gray-600: #505050;
+  --color-gray-700: #606060;
+  --color-gray-800: #707070;
+  --color-gray-900: #a0a0a0;
+  --color-gray-1000: #c0c0c0;
+
+  /* Text colors for dark mode */
+  --color-text-primary: #4ade80;
+  --color-text-secondary: #c0c0c0;
+  --color-text-muted: #a0a0a0;
+  --color-text-on-primary: #1a1a1a;
+
+  /* Backgrounds */
+  --color-bg-page: #1a1a1a;
+  --color-bg-card: #2d2d2d;
+  --color-bg-input: #2a2a2a;
+  --color-bg-hover: #333333;
+  --color-bg-selected: #1a2e1a;
+
+  /* Borders */
+  --color-border: #505050;
+  --color-border-light: #404040;
+  --color-border-input: #606060;
+  --color-border-focus: #4ade80;
+
+  /* Shadows */
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-medium: rgba(0, 0, 0, 0.4);
+  --color-shadow-strong: rgba(0, 0, 0, 0.5);
+
+  /* Calendar */
+  --color-calendar-no-data-bg: #2a2a2a;
+  --color-calendar-no-data-text: #a0a0a0;
+  --color-calendar-under-bg: rgba(255, 193, 7, 0.2);
+  --color-calendar-under-border: #ffc107;
+  --color-calendar-under-text: #ffd54f;
+  --color-calendar-in-range-bg: rgba(40, 167, 69, 0.2);
+  --color-calendar-in-range-border: #4ade80;
+  --color-calendar-in-range-text: #86efac;
+  --color-calendar-over-bg: rgba(220, 53, 69, 0.2);
+  --color-calendar-over-border: #f87171;
+  --color-calendar-over-text: #fca5a5;
+
+  /* Progress */
+  --color-progress-track: #333333;
+}
+
+/* High Contrast Theme */
+.high-contrast {
+  --color-primary: #006600;
+  --color-primary-light: #008800;
+  --color-success: #008800;
+  --color-success-light: #00aa00;
+  --color-warning: #cc8800;
+  --color-danger: #cc0000;
+  --color-info: #0066cc;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #000000;
+  --color-text-muted: #333333;
+
+  --color-border: #000000;
+  --color-border-input: #000000;
+  --color-border-focus: #006600;
+
+  --color-bg-page: #ffffff;
+  --color-bg-card: #ffffff;
+  --color-bg-input: #ffffff;
+}

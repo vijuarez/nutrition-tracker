@@ -28,11 +28,13 @@
     }
 
     a {
-        color: darkgreen;
+        color: var(--color-primary);
+        transition: color 0.3s ease;
     }
 }
 
 .error_msg {
-    color: brown;
+    color: var(--color-secondary);
     text-align: center;
+    transition: color 0.3s ease;
 }

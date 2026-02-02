@@ -1,5 +1,6 @@
 import "normalize.css"
 import "./styles/globals.scss"
+import "./styles/theme.css"
 //@ts-ignore
 import "@fontsource/gabarito";
 
@@ -8,6 +9,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 const queryClient = new QueryClient()
 
@@ -15,7 +17,9 @@ const queryClient = new QueryClient()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

@@ -6,6 +6,7 @@ import { api } from "../api"
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import Button from "./Button"
+import ThemeToggle from "./ThemeToggle"
 
 
 type Props = {
@@ -71,6 +72,11 @@ export default function Header({ }: Props) {
             {
                 loggedIn && !singleUserMode &&
                 <Button onClick={logout}>Logout</Button>
+            }
+
+            {
+                loggedIn &&
+                <ThemeToggle />
             }
 
         </div>

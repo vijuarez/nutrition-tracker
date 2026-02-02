@@ -4,9 +4,10 @@
 
     th,
     tfoot td {
-        background-color: rgba(3, 74, 3, 0.1);
-        color: darkgreen;
+        background-color: var(--color-food-input-bg);
+        color: var(--color-primary);
         font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     th {
@@ -18,14 +19,16 @@
     }
 
     tr:nth-of-type(even) {
-        background-color: #f4f4f4;
+        background-color: var(--color-gray-300);
+        transition: background-color 0.3s ease;
     }
 
     th,
     td {
-        border: 1px solid #eee;
+        border: 1px solid var(--color-border-light);
         padding: .3em .6em;
         text-align: right;
+        transition: border-color 0.3s ease;
     }
 
     td:nth-of-type(1) {

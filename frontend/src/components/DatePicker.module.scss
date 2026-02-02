@@ -12,12 +12,13 @@ $date-btn-width: 7rem;
         height: $date-btn-height;
 
         background: none;
-        border: 1px solid darkgreen;
+        border: 1px solid var(--color-primary);
         border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
+        transition: border-color 0.3s ease;
     }
 
     button.btn_date {
@@ -33,5 +34,6 @@ $date-btn-width: 7rem;
     margin-left: -5px;
     margin-top: 5px;
     z-index: 999;
-    box-shadow: 0 5px 10px rgba($color: black, $alpha: 0.2);
+    box-shadow: 0 5px 10px var(--color-shadow-medium);
+    transition: box-shadow 0.3s ease;
 }
